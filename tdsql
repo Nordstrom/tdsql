@@ -1,0 +1,18 @@
+#!/bin/bash --login
+
+# Trick for getting the script dir when being executed by a symlink
+# http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in
+pushd . > /dev/null
+SCRIPT_PATH="${BASH_SOURCE[0]}";
+if ([ -h "${SCRIPT_PATH}" ]) then
+  while([ -h "${SCRIPT_PATH}" ]) do cd `dirname "$SCRIPT_PATH"`; SCRIPT_PATH=`readlink "${SCRIPT_PATH}"`; done
+fi
+cd `dirname ${SCRIPT_PATH}` > /dev/null
+SCRIPT_PATH=`pwd`;
+popd  > /dev/null
+
+JRUBY_PATH=`which jruby`;
+# which jruby
+# echo "JRUBY=$JRUBY_PATH"
+# rvm use jruby > /dev/null
+$JRUBY_PATH $SCRIPT_PATH/main.rb "$@"
