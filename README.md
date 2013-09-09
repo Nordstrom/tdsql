@@ -37,7 +37,8 @@ hosts:
 		password: [db_password]
 ```
 
-Full Usage:
+```
+	Full Usage:
 
 	 --hostname, -h <s>:   Teradata host
    --username, -u <s>:   Teradata username
@@ -51,6 +52,7 @@ Full Usage:
          --header, -e:   Print column headers in output
        --conf, -n <s>:   Configuration file path
            --help, -l:   Show this message
+```
 
 Roadmap
 --------------------------
