@@ -5,8 +5,7 @@ require 'lib/query_output'
 require 'lib/teradata'
 
 @opts = Trollop::options do
-  opt :hostname, "Teradata host", :type => String
-  # opt :hostname, "Teradata host name", :type => String
+  opt :hostname, "Teradata host name", :type => String
   opt :username, "Teradata username", :type => String
   opt :password, "Teradata password", :type => String
   opt :command, "Teradata SQL command", :type => String
@@ -34,7 +33,7 @@ def main()
 
   Teradata.open(configuration[:host]) do |db|
     if sql_cmd.nil?
-      Repl.new(db, STDIN, STDOUT, configuration)
+      Repl.new(db, configuration)
     else
       begin
         results = db.select(configuration[:sql_cmd], configuration[:timeout])
