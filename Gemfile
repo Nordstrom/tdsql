@@ -4,3 +4,4 @@ source 'https://rubygems.org'
 
 gem "jdbc-teradata", "~> 0.2.0"
 gem 'trollop'
+gem "terminal-table"
