@@ -37,7 +37,7 @@ class Configuration
   end
 
   def to_h()
-  	@config_settings.to_h
+  	@config_settings.to_hash
   end
 
   private
