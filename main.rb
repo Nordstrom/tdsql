@@ -1,8 +1,8 @@
 require 'trollop'
-require 'lib/repl'
-require 'lib/configuration'
-require 'lib/query_output'
-require 'lib/teradata'
+require "#{File.dirname(__FILE__)}/lib/repl"
+require "#{File.dirname(__FILE__)}/lib/configuration"
+require "#{File.dirname(__FILE__)}/lib/query_output"
+require "#{File.dirname(__FILE__)}/lib/teradata"
 
 @opts = Trollop::options do
   opt :hostname, "Teradata host name", :type => String
@@ -21,6 +21,8 @@ end
 def main()
   # Get config settings from all the following locations. Locations further down 
   # the list override previously defined settings with the same key.
+
+  # TODO: Only read the conf file if it's permissions are 400
   config_locations = [
     "#{File.expand_path File.dirname(__FILE__)}/tdsql.conf", 
     "#{File.expand_path '~/'}/.tdsql.conf", # Hidden conf file in user home directory
