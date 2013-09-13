@@ -15,4 +15,4 @@ JRUBY_PATH=`which jruby`;
 # which jruby
 # echo "JRUBY=$JRUBY_PATH"
 # rvm use jruby > /dev/null
-$JRUBY_PATH $SCRIPT_PATH/main.rb "$@"
+$JRUBY_PATH --client -J-d32 -X-C --ng-server $SCRIPT_PATH/main.rb "$@"
