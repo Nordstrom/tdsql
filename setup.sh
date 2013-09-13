@@ -1,0 +1,1 @@
+jruby -S bundle install
