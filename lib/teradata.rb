@@ -1,8 +1,8 @@
 require "#{File.expand_path File.dirname(__FILE__)}/../terajdbc4.jar"
-require 'jdbc/teradata'
-java_import java.sql.Types
+require 'java'
 
-Jdbc::Teradata::load_driver
+java_import java.sql.Types
+java_import "com.teradata.jdbc.TeraDriver"
 
 class Teradata
 	# http://docs.oracle.com/javase/6/docs/api/constant-values.html#java.sql.Types
