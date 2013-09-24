@@ -81,7 +81,7 @@ class Configuration
   	if not blank?(@config_settings[:file])
     	raise ConfigError, "File #{@config_settings[:file]} does not exist" unless File.exist?(@config_settings[:file])
     
-	    File.open(@config_settings[:file], 'rb') do
+	    File.open(@config_settings[:file], 'rb') do |file|
 	      return file.read
 	    end
 	  elsif not blank?(@config_settings[:command])
