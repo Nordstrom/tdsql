@@ -10,8 +10,8 @@ class Teradata
 	STRING_SQL_TYPES = [1, -9, 12, -15, 91]
 
 	# https://www.ruby-forum.com/topic/202574
-	def self.open(host)
-		db = new(host)
+	def self.open(host, options)
+		db = new(host, options)
 	  yield db
 	rescue Object => e
 		raise e
@@ -19,9 +19,10 @@ class Teradata
 		db and db.close
 	end
 
-	def initialize(host)
+	def initialize(host, options)
 		@connection = java.sql.DriverManager.get_connection(
 	    "jdbc:teradata://#{host[:hostname]}/", host[:username], host[:password])
+		@options = options
 	end
 
 	def close()
@@ -61,7 +62,7 @@ class Teradata
       else
       	value = recordset.getObject(i+1)
       end
-      row[column[:name]] = value.nil? ? "NULL" : value
+      row[column[:name]] = value.nil? ? @options[:nullstring] : value
     end
     # puts row.inspect
     return row

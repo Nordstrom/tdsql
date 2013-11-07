@@ -16,6 +16,7 @@ require "#{File.dirname(__FILE__)}/lib/teradata"
   opt :timeout, "Command timeout in seconds", :type => Integer, :default => 60
   opt :header, "Print column headers in output", :default => false
   opt :conf, "Configuration file file path", :type => String
+  opt :nullstring, "The string to return for DB nulls", :type => String, :default => "nil"
 end
 
 def main()
@@ -33,7 +34,7 @@ def main()
   configuration = Configuration.new(*config_locations)
   sql_cmd = configuration[:sql_cmd]
 
-  Teradata.open(configuration[:host]) do |db|
+  Teradata.open(configuration[:host], {nullstring: configuration[:nullstring]}) do |db|
     if sql_cmd.nil?
       Repl.new(db, configuration)
     else
