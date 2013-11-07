@@ -61,7 +61,7 @@ class Teradata
       else
       	value = recordset.getObject(i+1)
       end
-      row[column[:name]] = value
+      row[column[:name]] = value.nil? ? "NULL" : value
     end
     # puts row.inspect
     return row
