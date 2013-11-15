@@ -40,9 +40,9 @@ def main()
     else
       begin
         results = db.select(configuration[:sql_cmd], configuration[:timeout])
-      rescue Teradata => e
+      rescue TeradataError => e
         $stderr.puts "Teradata Error: #{e.message}"
-        return
+        return 1
       end
 
       output = QueryOutput.new(configuration)
@@ -53,10 +53,12 @@ def main()
       else
         output.stream(results, $stdout)
       end
+      return 0
     end
   end
-end    
+end
 
 if __FILE__ == $PROGRAM_NAME
-  main()
+  rtn_value = main()
+  exit rtn_value
 end
