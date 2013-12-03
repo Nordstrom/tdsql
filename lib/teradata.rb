@@ -29,10 +29,13 @@ class Teradata
 		@connection.close
 	end
 
-	def select(sql, timeout=120)
+	def select(sql, parameters, timeout=120)
 		sql_statement = @connection.create_statement
     sql_statement.setQueryTimeout(timeout)
-    
+
+    # Set sql parameters on the statement
+    # parameters.each { |k, v| sql_statement.setObject(k, v) }
+
     # Execute the Teradata command
     begin
       recordset = sql_statement.execute_query(sql)

@@ -17,6 +17,8 @@ require "#{File.dirname(__FILE__)}/lib/teradata"
   opt :header, "Print column headers in output", :default => false
   opt :conf, "Configuration file file path", :type => String
   opt :nullstring, "The string to return for DB nulls", :type => String, :default => "nil"
+  opt :stdouterr, "Emit errors to stdout rather than stderr"
+  opt :parameters, "The input parameters to the sql command as a JSON string", :type => String
 end
 
 def main()
@@ -34,14 +36,32 @@ def main()
   configuration = Configuration.new(*config_locations)
   sql_cmd = configuration[:sql_cmd]
 
+  # Gather up any command args that start with "@" and treat them as sql parameters
+  # if @opts[:parameters]
+  #   @opts[:parameters].each |p| do
+  #     p.
+  #   end
+  # end
+
+  # sql_parameters = {}
+  # @opts.each do |k, v| 
+  #   key = k.is_a?(Symbol) ? k.to_s : k
+  #   if key.starts_with("@")
+  #     sql_parameters[key] = v
+  #   end
+  # end
+
+  err_stream = @opts[:stdouterr] ? $stdout : $stderr
+
   Teradata.open(configuration[:host], {nullstring: configuration[:nullstring]}) do |db|
     if sql_cmd.nil?
       Repl.new(db, configuration)
     else
       begin
-        results = db.select(configuration[:sql_cmd], configuration[:timeout])
+        results = db.select(configuration[:sql_cmd], {}, configuration[:timeout])
       rescue TeradataError => e
-        $stderr.puts "Teradata Error: #{e.message}"
+        err_stream.puts e.message
+        # Return a non-zero exit code indicating an error
         return 1
       end
 
@@ -57,6 +77,15 @@ def main()
     end
   end
 end
+
+# def parse_parameters(parameters)
+#   parameters.each |p| do
+#     equals_index = p.index("=")
+#     if equals_index?
+#       p.substring()
+#     end
+#   end
+# end
 
 if __FILE__ == $PROGRAM_NAME
   rtn_value = main()
