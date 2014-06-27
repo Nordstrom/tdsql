@@ -21,7 +21,7 @@ class Teradata
 
 	def initialize(host, options)
 		@connection = java.sql.DriverManager.get_connection(
-	    "jdbc:teradata://#{host[:hostname]}/", host[:username], host[:password])
+	    "jdbc:teradata://#{host[:hostname]}/tmode=ANSI,charset=UTF8", host[:username], host[:password])
 		@options = options
 	end
 
