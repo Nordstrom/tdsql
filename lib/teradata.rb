@@ -21,7 +21,7 @@ class Teradata
 
 	def initialize(host, options)
 		@connection = java.sql.DriverManager.get_connection(
-	    "jdbc:teradata://#{host[:hostname]}/", host[:username], host[:password])
+	    "jdbc:teradata://#{host[:hostname]}/tmode=ANSI,charset=UTF8", host[:username], host[:password])
 		@options = options
 	end
 
@@ -29,10 +29,13 @@ class Teradata
 		@connection.close
 	end
 
-	def select(sql, timeout=120)
+	def select(sql, parameters, timeout=120)
 		sql_statement = @connection.create_statement
     sql_statement.setQueryTimeout(timeout)
-    
+
+    # Set sql parameters on the statement
+    # parameters.each { |k, v| sql_statement.setObject(k, v) }
+
     # Execute the Teradata command
     begin
       recordset = sql_statement.execute_query(sql)
