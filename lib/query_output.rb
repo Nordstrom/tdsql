@@ -19,7 +19,8 @@ class QueryOutput
 			headers.each_with_index do |header, i|
 				col_value = row[header]
 				# If the column value contains the quote or delimiter characters then wrap the value in quotes
-				if quote_value(col_value)
+				if quote_value?(col_value)
+          col_value.gsub!(@configuration[:quotechar], "\\#{@configuration[:quotechar]}")
 					col_value = "#{@configuration[:quotechar]}#{col_value}#{@configuration[:quotechar]}"
 				end
 				writer.print col_value
@@ -32,10 +33,11 @@ class QueryOutput
 		end
 	end
 
-	private 
+	private
 
-	def quote_value(value)
-		return false unless value.class == String 
+	def quote_value?(value)
+		return false unless value.class == String
 		(value.include? @configuration[:delimiter]) or (value.include? @configuration[:quotechar])
 	end
+
 end
