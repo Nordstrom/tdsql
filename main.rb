@@ -20,6 +20,7 @@ require "#{File.dirname(__FILE__)}/lib/teradata"
   opt :nullstring, "The string to return for DB nulls", :type => String, :default => "nil"
   opt :stdouterr, "Emit errors to stdout rather than stderr"
   opt :parameters, "The input parameters to the sql command as a JSON string", :type => String
+  opt :ddl, "File containing DDL command to execute prior to running query", :type => String
 end
 
 def main()
@@ -59,7 +60,7 @@ def main()
       Repl.new(db, configuration)
     else
       begin
-        results = db.select(configuration[:sql_cmd], {}, configuration[:timeout])
+        results = db.select(sql_cmd, {}, configuration[:timeout], configuration[:ddl_cmd])
       rescue TeradataError => e
         err_stream.puts e.message
         # Return a non-zero exit code indicating an error

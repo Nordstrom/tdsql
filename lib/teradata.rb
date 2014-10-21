@@ -21,7 +21,7 @@ class Teradata
 
 	def initialize(host, options)
 		@connection = java.sql.DriverManager.get_connection(
-	    "jdbc:teradata://#{host[:hostname]}/tmode=TERA,charset=UTF8", host[:username], host[:password])
+	    "jdbc:teradata://#{host[:hostname]}/tmode=TERA,autocommit=on,charset=UTF8", host[:username], host[:password])
 		@options = options
 	end
 
@@ -29,7 +29,19 @@ class Teradata
 		@connection.close
 	end
 
-	def select(sql, parameters, timeout=120)
+	def select(sql, parameters, timeout=120, pre_select_ddl=nil)
+		unless pre_select_ddl.nil?
+			sql_statement = @connection.create_statement
+			sql_statement.setQueryTimeout(timeout)
+
+			# Execute the Teradata command
+			begin
+				recordset = sql_statement.execute_query(pre_select_ddl)
+			rescue com.teradata.jdbc.jdbc_4.util.JDBCException => e
+				raise TeradataError.new "Database exception: #{e.message}"
+			end
+		end
+
 		sql_statement = @connection.create_statement
     sql_statement.setQueryTimeout(timeout)
 

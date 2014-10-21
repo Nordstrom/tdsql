@@ -4,7 +4,7 @@ require 'yaml'
 class Configuration
 	def initialize(*args)
 		@config_settings = {}
-		
+
 		args.each do |arg|
 			if arg.nil?
 				next
@@ -18,6 +18,7 @@ class Configuration
 
 	  @config_settings[:host] = determine_host()
 	  @config_settings[:sql_cmd] = determine_sql_cmd()
+		@config_settings[:ddl_cmd] = determine_ddl_cmd()
 	end
 
 	def [](key)
@@ -58,14 +59,14 @@ class Configuration
 		end
 
 		hostname = @config_settings[:hostname]
-		if not hostname.nil? 
+		if not hostname.nil?
 			host = (hosts.find_all { |host| host[:hostname] == hostname }).last
 			raise(ConfigError, "No host #{hostname} specified in configuration") if host.nil?
 		else
 			host = hosts.first
 		end
 
-		# Clone the hash so we aren't modifying the underlying config data. Then 
+		# Clone the hash so we aren't modifying the underlying config data. Then
 		# tack the hostname on.
 		host = host.clone()
 
@@ -80,7 +81,7 @@ class Configuration
   def determine_sql_cmd()
   	if not blank?(@config_settings[:file])
     	raise ConfigError, "File #{@config_settings[:file]} does not exist" unless File.exist?(@config_settings[:file])
-    
+
 	    File.open(@config_settings[:file], 'rb') do |file|
 	      return file.read
 	    end
@@ -89,6 +90,16 @@ class Configuration
 	  else
 	    return nil
 	  end
+	end
+
+	def determine_ddl_cmd()
+		if not blank?(@config_settings[:ddl])
+			File.open(@config_settings[:ddl], 'rb') do |file|
+				return file.read
+			end
+		else
+			return nil
+		end
 	end
 
 	# Performs a recursive merge on nested Hashes
@@ -118,7 +129,7 @@ class Configuration
 				hash[key].each {|o| Configuration.symbolize_keys(o) if o.class == Hash}
 			end
 			if hash[key].class == Hash
-				Configuration.symbolize_keys(hash[key]) 
+				Configuration.symbolize_keys(hash[key])
 			end
   		hash[(key.to_sym rescue key) || key] = hash.delete(key)
   	end
