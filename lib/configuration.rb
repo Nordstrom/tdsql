@@ -93,10 +93,14 @@ class Configuration
 	end
 
 	def determine_ddl_cmd()
-		if not blank?(@config_settings[:ddl])
+		if not blank?(@config_settings[:ddlfile])
+			raise ConfigError, "File #{@config_settings[:ddlfile]} does not exist" unless File.exist?(@config_settings[:ddlfile])
+
 			File.open(@config_settings[:ddl], 'rb') do |file|
 				return file.read
 			end
+		elsif not blank?(@config_settings[:command])
+			@config_settings[:ddl].strip().delete('"')
 		else
 			return nil
 		end

@@ -51,7 +51,8 @@ hosts:
     --timeout, -t <i>:   Command timeout in seconds (default: 120)
          --header, -e:   Print column headers in output
        --conf, -n <s>:   Configuration file path
-        --ddl, -d <s>:   Path to a DDL script to execute prior to the command.
+    --ddlfile, -v <s>:   Path to a DDL script to execute prior to the command.
+        --ddl, -d <s>:   A DDL statement to execute prior to the command
            --help, -l:   Show this message
 ```
 
