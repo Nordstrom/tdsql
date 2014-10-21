@@ -21,7 +21,7 @@ class Teradata
 
 	def initialize(host, options)
 		@connection = java.sql.DriverManager.get_connection(
-	    "jdbc:teradata://#{host[:hostname]}/tmode=ANSI,charset=UTF8", host[:username], host[:password])
+	    "jdbc:teradata://#{host[:hostname]}/tmode=TERA,charset=UTF8", host[:username], host[:password])
 		@options = options
 	end
 
@@ -58,13 +58,16 @@ class Teradata
 
 	def build_row(recordset, columns)
 		row = {}
-		# raise columns.inspect
     columns.each_with_index do |column, i|
       if STRING_SQL_TYPES.include? column[:type]
       	value = recordset.getString(i+1)
+
+				# Replace unicode whitespace with a standard space and strip leading/trailing spaces=
+				value = value.gsub(/[[:space:]]/, ' ').strip unless value.nil?
       else
       	value = recordset.getObject(i+1)
       end
+
       row[column[:name]] = value.nil? ? @options[:nullstring] : value
     end
     # puts row.inspect
@@ -78,7 +81,7 @@ class Teradata
 	  columns = []
 	  (1..num_columns).each do |i|
 	  	columns.push({
-	  		name: recordset_metadata.getColumnName(i), 
+	  		name: recordset_metadata.getColumnName(i),
 	  		type: recordset_metadata.getColumnType(i)
 	  	})
 	  end
