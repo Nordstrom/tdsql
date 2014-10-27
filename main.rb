@@ -77,11 +77,11 @@ def main()
 
               # Print the header row
               if configuration[:header] == true
+                # puts "writing headers"
                 csv.add_row headers
               end
-            else
-              csv.add_row(headers.map { |header| row[header].to_s.strip })
             end
+            csv.add_row(headers.map { |header| row[header].to_s.strip })
           end
         end
       else
