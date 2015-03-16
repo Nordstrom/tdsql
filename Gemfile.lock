@@ -1,7 +1,6 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    fastercsv (1.5.5)
     jdbc-teradata (0.2.0)
     terminal-table (1.4.5)
     trollop (2.0)
@@ -11,7 +10,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  fastercsv (~> 1.5.5)
   jdbc-teradata (~> 0.2.0)
   terminal-table
   trollop

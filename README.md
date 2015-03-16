@@ -5,19 +5,20 @@ A lightweight OSX/Linux command line utility for the [Teradata](http://www.terad
 
 Installation Instructions
 -------------------------
+* Ensure the jruby bunfler gem is installed: `jruby -S gem install bundler`
+* From the root of the repo, run `jruby -S bundle install`
 * Ensure jruby is installed and present in the PATH
 * Make sure tdsql has execute permissions:
-  chmod +x tdsql
+  `chmod +x tdsql`
 * Create a symlink in /usr/local/bin replacing "~/src" with your clone path:
-  ln -s ~/src/tdsql/tdsql /usr/local/bin/tdsql
+  `ln -s ~/src/tdsql/tdsql /usr/local/bin/tdsql`
 
 Usage
 --------------------------
-Type tdsql --help for a list of parameters.
-DB connection information can be provided either with the individual command line args --hostname, --username, and --password or by specifying just a --hostname and have the username and password stored in an external configuration file. If no --hostname is specified, then the first host found in configuration is
-used automatically.
+Type `tdsql --help` for a list of parameters.
+DB connection information can be provided either with the individual command line args `--hostname`, `--username`, and `--password` or by specifying just a `--hostname` and have the username and password stored in an external configuration file. If no `--hostname` is specified, then the first host found in configuration is used automatically.
 
-The sql query to execute can be specified right at the command line via the --command argument or the --file argument can specify a file path containing the command to run. If neither is specified then an interactive REPL session is initiated.
+The sql query to execute can be specified right at the command line via the `--command` argument or the `--file` argument can specify a file path containing the command to run. If neither is specified then an interactive REPL session is initiated.
 
 It is not necessary to pass any arguments at all. This will result in a REPL session connected to the default host.
 
@@ -25,9 +26,8 @@ The tool supports multiple config file locations starting with the tdsql.conf fi
 
 The format of all config files is like so:
 
-```yaml
+~~~yaml
 timeout: 120
-
 hosts:
 	- hostname: [db_host_1]
 		username: [db_username]
@@ -35,9 +35,9 @@ hosts:
 	- hostname: [db_host_2]
 		username: [db_username]
 		password: [db_password]
-```
+~~~
 
-```
+~~~
 	Full Usage:
 
 	 --hostname, -h <s>:   Teradata host
@@ -54,7 +54,7 @@ hosts:
     --ddlfile, -v <s>:   Path to a DDL script to execute prior to the command.
         --ddl, -d <s>:   A DDL statement to execute prior to the command
            --help, -l:   Show this message
-```
+~~~
 
 ** Volatile Tables
 A Teradata best practice is to use a volatile table with a primary key rather than an inline derived table. However
