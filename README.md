@@ -5,7 +5,7 @@ A lightweight OSX/Linux command line utility for the [Teradata](http://www.terad
 
 Installation Instructions
 -------------------------
-* Ensure the jruby bunfler gem is installed: `jruby -S gem install bundler`
+* Ensure the jruby bundler gem is installed: `jruby -S gem install bundler`
 * From the root of the repo, run `jruby -S bundle install`
 * Ensure jruby is installed and present in the PATH
 * Make sure tdsql has execute permissions:
