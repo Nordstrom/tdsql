@@ -29,12 +29,12 @@ The format of all config files is like so:
 ~~~yaml
 timeout: 120
 hosts:
-	- hostname: [db_host_1]
-		username: [db_username]
-		password: [db_password]
-	- hostname: [db_host_2]
-		username: [db_username]
-		password: [db_password]
+    - hostname:   db_host_1
+      username:   db_username
+      password:   db_password
+    - hostname:   db_host_2
+      username:   db_username
+      password:   db_password
 ~~~
 
 ~~~
