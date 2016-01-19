@@ -14,9 +14,8 @@ if ([ -z "${TDSQL_PATH}" ]) then
   popd  > /dev/null
 fi
 
-JRUBY_PATH=`which jruby`;
+if ([ -z ${JRUBY_PATH}]) then
+  JRUBY_PATH=`which jruby`;
+fi
 
-# which jruby
-# echo "JRUBY=$JRUBY_PATH"
-# rvm use jruby > /dev/null
 $JRUBY_PATH $TDSQL_PATH/main.rb "$@"
