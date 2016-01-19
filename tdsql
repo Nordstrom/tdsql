@@ -14,7 +14,7 @@ if ([ -z "${TDSQL_PATH}" ]) then
   popd  > /dev/null
 fi
 
-if ([ -z ${JRUBY_PATH}]) then
+if ([ -z ${JRUBY_PATH} ]) then
   JRUBY_PATH=`which jruby`;
 fi
 
